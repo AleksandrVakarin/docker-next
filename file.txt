@@ -1,0 +1,54 @@
+docker build -t ghcr.io/aleksandrvakarin/docker-next:latest .
+
+docker build .
+
+docker images  -  all images
+
+docker image ls  -  all images
+
+docker rmi [IMAGE ID] - delete image
+
+docker image prune  - delete all unuseble images
+
+docker run [IMAGE ID]  - container from image
+
+docker ps - runned containers
+
+docker ps -a - all containers
+
+docker start [CONTAINER ID]
+
+docker rm [CONTAINER ID]
+
+docker container prune    -   dellete all unuseble containers
+
+docker stop [CONTAINER ID]
+
+"
+FROM node
+
+WORKDIR /app
+
+COPY package.json /app
+
+RUN npm install
+
+EXPOSE 3000
+
+CMD [ "node", "app.js" ]
+
+"
+
+docker build .
+
+docker build -t [IMAGE NAME] .
+
+docker build -t [IMAGE NAME]:[TAG] .
+
+docker run -d -p 80:3000 [IMAGE ID]
+
+docker run -d -p 3000:3000 --name anyname [IMAGE ID]
+
+docker stop anyname  -  stop containe anyname
+
+docker run -d -p 3000:3000 --name anyname --rm [IMAGE ID]  - delete container after stop
