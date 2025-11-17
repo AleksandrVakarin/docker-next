@@ -1,5 +1,9 @@
 docker build -t ghcr.io/aleksandrvakarin/docker-next:latest .
 
+# Очистить Docker кэш
+docker system prune -a
+docker builder prune -a
+
 docker build .
 
 docker images  -  all images
@@ -33,7 +37,9 @@ COPY package.json /app
 
 RUN npm install
 
-EXPOSE 3000
+ENV PORT 3000
+
+EXPOSE $PORT
 
 CMD [ "node", "app.js" ]
 
@@ -52,3 +58,18 @@ docker run -d -p 3000:3000 --name anyname [IMAGE ID]
 docker stop anyname  -  stop containe anyname
 
 docker run -d -p 3000:3000 --name anyname --rm [IMAGE ID]  - delete container after stop
+
+docker run -d -p 3000:3000 --env-file .env --rm --name [IMAGE NAME]  -  get port from .env
+
+
+#Volumes:
+for DEV
+
+docker run -d -p -v "/Users/aleks/Documents/docker-next:/app" -v /app/node_modules -v logs:app/data --rm --name [IMAGE NAME]:[TAG]  - where: logs:app/data logs=VOLUME NAME, app/data=VOLUME DIR
+
+
+#Push to dockerHub:
+
+docker login
+
+docker push aleksandrvakarin/[REPOSITORY NAME]:latest   -  where REPOSITORY NAME = aleksandrvakarin/[REPOSITORY NAME]
