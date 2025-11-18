@@ -67,9 +67,21 @@ for DEV
 
 docker run -d -p -v "/Users/aleks/Documents/docker-next:/app" -v /app/node_modules -v logs:app/data --rm --name [IMAGE NAME]:[TAG]  - where: logs:app/data logs=VOLUME NAME, app/data=VOLUME DIR
 
+D:/WorkSpace/NextJS/docker-next
+
+docker run -d -p 3000:3000 -v D:\WorkSpace\NextJS\docker-next:/app -v /app/node_modules -v /app/.next -v logs:/app/data -w /app -e NODE_ENV=development --rm --name docker-next-container docker-next:latest npm run dev
+
+docker run -d -p 3000:3000 -v D:\WorkSpace\NextJS\docker-next:/app -v /app/node_modules -v /app/.next -v logs:/app/data -w /app -e NODE_ENV=development --rm --name docker-next-container docker-next:latest npm start
+
+#dev:
+docker run -d -p 3000:3000 -v D:\WorkSpace\NextJS\docker-next:/app -v /app/node_modules -v /app/.next -v logs:/app/data -w /app -e NODE_ENV=development -e CHOKIDAR_USEPOLLING=true --rm --name next-dev docker-next:dev
 
 #Push to dockerHub:
 
 docker login
 
 docker push aleksandrvakarin/[REPOSITORY NAME]:latest   -  where REPOSITORY NAME = aleksandrvakarin/[REPOSITORY NAME]
+
+
+#Docker-compose:
+
