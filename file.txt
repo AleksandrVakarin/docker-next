@@ -1,10 +1,14 @@
 docker build -t ghcr.io/aleksandrvakarin/docker-next:latest .
 
+#For production use "standalone" in next.config.ts !!
+
 # Очистить Docker кэш
 docker system prune -a
 docker builder prune -a
 
 docker build .
+
+docker build -t docker-next:dev -f Dockerfile.dev .  -  build from Dockerfile.dev
 
 docker images  -  all images
 
@@ -76,6 +80,13 @@ docker run -d -p 3000:3000 -v D:\WorkSpace\NextJS\docker-next:/app -v /app/node_
 #dev:
 docker run -d -p 3000:3000 -v D:\WorkSpace\NextJS\docker-next:/app -v /app/node_modules -v /app/.next -v logs:/app/data -w /app -e NODE_ENV=development -e CHOKIDAR_USEPOLLING=true --rm --name next-dev docker-next:dev
 
+docker run -d -p 3000:3000 -v D:\WorkSpace\NextJS\docker-next:/app -v /app/.next -w /app -e NODE_ENV=development -e CHOKIDAR_USEPOLLING=true -e WATCHPACK_POLLING=true --rm --name next-dev docker-next:dev
+
+docker run -d -p 3000:3000 -v D:\WorkSpace\NextJS\docker-next:/app -w /app -e NODE_ENV=development -e CHOKIDAR_USEPOLLING=true --rm --name next-dev docker-next:dev
+
+docker run -it --rm -p 3000:3000 -v ${PWD}:/app -w /app -e NODE_ENV=development -e CHOKIDAR_USEPOLLING=true -e WATCHPACK_POLLING=true --name nextjs-hot node:20-alpine sh -c "npm ci && npm run dev -- -H 0.0.0.0"
+
+
 #Push to dockerHub:
 
 docker login
@@ -84,4 +95,11 @@ docker push aleksandrvakarin/[REPOSITORY NAME]:latest   -  where REPOSITORY NAME
 
 
 #Docker-compose:
+for my compose.dev.yaml:
+for reload browser use "Run all services" in compose.dev.yaml
 
+docker network create my_network  -  first run network
+
+docker-compose -f compose.dev.yaml down
+
+docker-compose -f compose.dev.yaml up --build
